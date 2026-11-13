@@ -52,7 +52,8 @@ COPY Marotos.jpeg /root/Marotos.jpeg
 # ajustando as permissoes de imagem
 RUN chown -R Sirius:Sirius /home/Sirius/images
 
-# Aplicacao web, forcando o /etc/hosts
+# Aplicacao web: o vhost so responde a pedropettigrew.thm
+# (o jogador precisa adicionar "IP pedropettigrew.thm" no /etc/hosts)
 COPY web/ /var/www/html/
 COPY ctf.conf /etc/apache2/sites-available/ctf.conf
 
@@ -63,7 +64,7 @@ RUN rm -rf /var/www/html/*
 COPY web/ /var/www/html/
 COPY ctf.conf /etc/apache2/sites-available/ctf.conf
 
-RUN a2enmod php8.1 && a2dissite 000-default.conf && a2ensite ctf.conf
+RUN a2enmod php8.1 rewrite && a2dissite 000-default.conf && a2ensite ctf.conf
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
